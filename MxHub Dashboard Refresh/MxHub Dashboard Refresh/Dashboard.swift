@@ -2,11 +2,11 @@ import SwiftUI
 
 struct Dashboard: View {
 	@State private var selectedSegment = 0
-
+	
 	var body: some View {
 		VStack(spacing: 0) {
 			NavbarPlaceholder()
-
+			
 			Picker(selection: $selectedSegment, label: Text("")) {
 				Text("My AC").tag(0)
 				Text("All AC").tag(1)
@@ -50,7 +50,7 @@ struct Dashboard: View {
 }
 
 #Preview {
-    Dashboard()
+	Dashboard()
 }
 
 struct AircraftCard: View {
@@ -67,7 +67,6 @@ struct AircraftCard: View {
 					.font(.headline)
 					.foregroundColor(.black)
 					.padding()
-				
 			}
 		}
 	}
