@@ -18,14 +18,28 @@ struct Dashboard: View {
 			
 			FlightInfoPlaceholder()
 			
-			LazyVGrid(columns: [
-				GridItem(.flexible(), spacing: 16),
-				GridItem(.flexible(), spacing: 16)
-			], spacing: 16) {
-				CardView()
-				CardView()
-				CardView()
-				CardView()
+			
+			ScrollView {
+				LazyVGrid(columns: [
+					GridItem(.flexible(), spacing: 16),
+					GridItem(.flexible(), spacing: 16)
+				], spacing: 16) {
+					if selectedSegment == 0 {
+						AircraftCard(title: "My AC card")
+						AircraftCard(title: "My AC card")
+						AircraftCard(title: "My AC card")
+						AircraftCard(title: "My AC card")
+						AircraftCard(title: "My AC card")
+						AircraftCard(title: "My AC card")
+					} else {
+						AircraftCard(title: "All AC card")
+						AircraftCard(title: "All AC card")
+						AircraftCard(title: "All AC card")
+						AircraftCard(title: "All AC card")
+						AircraftCard(title: "All AC card")
+						AircraftCard(title: "All AC card")
+					}
+				}
 			}
 			Spacer()
 		}
@@ -39,7 +53,9 @@ struct Dashboard: View {
     Dashboard()
 }
 
-struct CardView: View {
+struct AircraftCard: View {
+	var title: String
+	
 	var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 4)
@@ -47,7 +63,7 @@ struct CardView: View {
 				.frame(height: 319)
 			
 			VStack {
-				Text("Test!")
+				Text(title)
 					.font(.headline)
 					.foregroundColor(.black)
 					.padding()
