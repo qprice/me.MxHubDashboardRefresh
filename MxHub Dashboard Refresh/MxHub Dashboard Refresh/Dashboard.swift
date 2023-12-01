@@ -2,9 +2,11 @@ import SwiftUI
 
 struct Dashboard: View {
 	@State private var selectedSegment = 0
+	@State var sliderValue = 0.0
+	
 	var body: some View {
 		VStack(spacing: 0) {
-			NavbarPlaceholder()
+			NavbarPlaceholder(sliderValue: $sliderValue, showSlider: selectedSegment == 1)
 			
 			// Find way to increase height
 			Picker(selection: $selectedSegment, label: Text("")) {
@@ -61,12 +63,14 @@ struct Dashboard: View {
 							deferralNum: 12,
 							maintInfoNum: 5)
 					} else {
-						AircraftCard(
-							aircraftNum: "619AS",
-							aircraftStatus: "ETOPS OTS",
-							maintNum: 8,
-							deferralNum: 12,
-							maintInfoNum: 5)
+						ForEach(0..<Int(sliderValue), id: \.self) { _ in
+							AircraftCard(
+								aircraftNum: "619AS",
+								aircraftStatus: "ETOPS",
+								maintNum: 8,
+								deferralNum: 12,
+								maintInfoNum: 5)
+						}
 					}
 				}
 			}
@@ -138,12 +142,14 @@ struct AircraftCard: View {
 				
 				ProgressBar()
 					.padding(.vertical, 20)
-				
 				FlightInfo()
+				
+				// WarningDisplay(groundWarning: "Tow required", departingWarning: "Gate changed")
 				
 				Spacer()
 			}
-			.padding(20)
+			.padding(.horizontal, 20)
+			.padding(.top, 20)
 		}
 	}
 	
@@ -312,17 +318,19 @@ struct ProgressBar: View {
 // TODO: Combine arriving / departing info columns
 struct FlightInfo: View {
 	var body: some View {
-		HStack {
+		HStack(spacing: 0) {
 			ArrivingInfoColumn(flightID: "2254 SFO", time: "10:20", gateIn: "285")
 			
 			Divider()
-			
+				.padding(.vertical, 0)
 			GroundInfoColumn(station: "SEA", ground: "1:29", time: "1:15:23")
 			
 			Divider()
+				.padding(.vertical, 0)
 			
 			DepartingInfoColumn(flightID: "3489 ANC", time: "11:45", gateOut: "290")
 		}
+		.padding(.vertical, 0)
 	}
 }
 
@@ -372,6 +380,7 @@ struct ArrivingInfoColumn: View {
 					.fontWeight(.semibold)
 			}
 		}
+		.padding(.trailing, 10)
 	}
 }
 
@@ -407,6 +416,7 @@ struct GroundInfoColumn: View {
 			.foregroundColor(.gray)
 			.fontWeight(.semibold)
 		}
+		.padding(.horizontal, 10)
 	}
 }
 
@@ -456,6 +466,55 @@ struct DepartingInfoColumn: View {
 					.fontWeight(.semibold)
 			}
 		}
+		.padding(.leading, 10)
+	}
+}
+
+// Rename this
+struct WarningDisplay: View {
+	var arrivingWarning: String? = ""
+	var groundWarning: String? = ""
+	var departingWarning: String? = ""
+	
+	var body: some View {
+		GeometryReader { geometry in
+			HStack {
+				Warning(message: arrivingWarning ?? "", width: geometry.size.width / 3)
+				
+				Spacer()
+				
+				Warning(message: arrivingWarning ?? "", width: geometry.size.width / 3)
+				
+				Spacer()
+				
+				Warning(message: arrivingWarning ?? "", width: geometry.size.width / 3)
+			}
+		}
+		.padding(.top, 11)
+		.padding(.bottom, 12)
+	}
+}
+
+
+struct Warning: View {
+	var message: String
+	var width: CGFloat
+	
+	var body: some View {
+		HStack(alignment: .center, spacing: 2) {
+			if !message.isEmpty {
+				Image(systemName: "exclamationmark.triangle")
+					.font(.caption)
+				Text(message)
+					.font(.caption2)
+			}
+		}
+		.frame(width: width)
+		.fixedSize()
+		.padding(0)
+		.font(.caption2)
+		.fontWeight(.semibold)
+		.foregroundColor(Color(uiColor: .systemOrange))
 	}
 }
 

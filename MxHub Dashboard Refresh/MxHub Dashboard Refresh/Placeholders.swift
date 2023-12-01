@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct NavbarPlaceholder: View {
+	@Binding var sliderValue: Double
+	var showSlider: Bool = false
+	
 	var body: some View {
 		ZStack {
 			Rectangle()
@@ -25,10 +28,20 @@ struct NavbarPlaceholder: View {
 				.frame(height: 53)
 				.foregroundColor(Color.teal)
 				.padding(.horizontal, -20)
-
-			Text("Secondary Navbar")
-				.font(.headline)
-				.foregroundColor(.white)
+			
+			if showSlider {
+				HStack {
+					Slider(value: $sliderValue, in: 0...30, step: 1.0)
+						.frame(width: 300)
+					Text("Cards shown: \(Int(sliderValue))")
+						.font(.headline)
+						.foregroundColor(.white)
+				}
+			} else {
+				Text("Secondary Navbar")
+					.font(.headline)
+					.foregroundColor(.white)
+			}
 		}
 	}
 }
