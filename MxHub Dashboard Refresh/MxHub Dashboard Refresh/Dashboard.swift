@@ -119,22 +119,25 @@ struct AircraftCard: View {
 				
 				.padding(.bottom, 12)
 				HStack {
-					InfoButton(
+					MaintButton(
 						symbol: "wrench",
 						text: "Maint. Task",
 						num: maintNum,
 						numColor: Color(uiColor: .red), showDot: true)
-					InfoButton(
+					MaintButton(
 						symbol: "gear",
 						text: "Deferrals",
 						num: deferralNum,
 						numColor: .black, showDot: false)
-					InfoButton(
+					MaintButton(
 						symbol: "info.circle",
 						text: "Maint. Info",
 						num: maintInfoNum,
 						numColor: Color(uiColor: .red), showDot: false)
 				}
+				
+				ProgressBar()
+					.padding(.vertical, 20)
 				
 				Spacer()
 			}
@@ -156,7 +159,37 @@ struct AircraftCard: View {
 	}
 }
 
-struct InfoButton: View {
+struct ProgressBar: View {
+	var body: some View {
+		ZStack(alignment: .leading) {
+			Rectangle()
+				.foregroundColor(.clear)
+				.frame(width: 346, height: 6)
+				.background(Color(.secondarySystemBackground))
+				.cornerRadius(20)
+			
+			Rectangle()
+				.frame(width: 138, height: 6)
+				.foregroundColor(.clear)
+				.background(.brandDark)
+				.cornerRadius(20)
+			
+			Text("ON")
+				.font(.footnote)
+				.padding(.vertical, 3)
+				.padding(.horizontal, 4)
+				.fontWeight(.bold)
+				.lineSpacing(16)
+				.foregroundColor(.white)
+				.background(.brandDark)
+				.cornerRadius(4)
+				.offset(x: 118)
+		}
+		.frame(height: 22)
+	}
+}
+
+struct MaintButton: View {
 	var symbol: String
 	var text: String
 	var num: Int
@@ -276,7 +309,7 @@ struct StatusBlock: View {
 						.padding(0)
 				}
 			}
-
+			
 		}
 	}
 }
