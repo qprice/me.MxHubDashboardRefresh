@@ -114,56 +114,7 @@ struct AircraftCard: View {
 					
 					Spacer()
 					
-					VStack(alignment: .leading, spacing: 8) {
-						HStack(spacing: 8) {
-							Image(systemName: "checkmark.circle")
-								.font(.footnote)
-								.fontWeight(.semibold)
-								.padding(0)
-								.foregroundColor(Color(uiColor: .systemGreen))
-							
-							Text("Transit Check")
-								.font(.footnote)
-								.padding(0)
-						}
-						HStack(spacing: 8) {
-							Image(systemName: "exclamationmark.octagon")
-								.font(.footnote)
-								.fontWeight(.semibold)
-								.padding(0)
-								.foregroundColor(Color(uiColor: .systemRed))
-							
-							Text("ETOPS PDC")
-								.font(.footnote)
-								.padding(0)
-						}
-					}
-					.padding(.trailing, 16)
-					
-					VStack(alignment: .leading, spacing: 8) {
-						HStack(spacing: 8) {
-							Image(systemName: "exclamationmark.octagon")
-								.font(.footnote)
-								.fontWeight(.semibold)
-								.padding(0)
-								.foregroundColor(Color(uiColor: .systemRed))
-
-							Text("Logbook")
-								.font(.footnote)
-								.padding(0)
-						}
-						HStack(spacing: 8) {
-							Image(systemName: "checkmark.circle")
-								.font(.footnote)
-								.fontWeight(.semibold)
-								.padding(0)
-								.foregroundColor(Color(uiColor: .systemGreen))
-							
-							Text("FFM&G")
-								.font(.footnote)
-								.padding(0)
-						}
-					}
+					StatusBlock()
 				}
 				
 				.padding(.bottom, 12)
@@ -228,7 +179,6 @@ struct InfoButton: View {
 						
 						Text(text)
 							.font(.footnote)
-//							.fontWeight(.semibold)
 							.foregroundColor(.alaskaBlue)
 							.lineLimit(1)
 							.padding(.bottom, 4)
@@ -284,4 +234,62 @@ struct MaintButtonInfo {
 	var deferralNum: Int = 0
 	var msgNum: Int = 0
 	var etopsNum: Int = 0
+}
+
+struct StatusBlock: View {
+	var body: some View {
+		HStack(spacing: 0) {
+			VStack(alignment: .leading, spacing: 8) {
+				HStack(spacing: 8) {
+					Image(systemName: "checkmark.circle")
+						.font(.footnote)
+						.fontWeight(.semibold)
+						.padding(0)
+						.foregroundColor(Color(uiColor: .systemGreen))
+					
+					Text("Transit Check")
+						.font(.footnote)
+						.padding(0)
+				}
+				HStack(spacing: 8) {
+					Image(systemName: "exclamationmark.octagon")
+						.font(.footnote)
+						.fontWeight(.semibold)
+						.padding(0)
+						.foregroundColor(Color(uiColor: .systemRed))
+					
+					Text("ETOPS PDC")
+						.font(.footnote)
+						.padding(0)
+				}
+			}
+			.padding(.trailing, 16)
+			
+			VStack(alignment: .leading, spacing: 8) {
+				HStack(spacing: 8) {
+					Image(systemName: "exclamationmark.octagon")
+						.font(.footnote)
+						.fontWeight(.semibold)
+						.padding(0)
+						.foregroundColor(Color(uiColor: .systemRed))
+					
+					Text("Logbook")
+						.font(.footnote)
+						.padding(0)
+				}
+				HStack(spacing: 8) {
+					Image(systemName: "checkmark.circle")
+						.font(.footnote)
+						.fontWeight(.semibold)
+						.padding(0)
+						.foregroundColor(Color(uiColor: .systemGreen))
+					
+					Text("FFM&G")
+						.font(.footnote)
+						.padding(0)
+				}
+			}
+
+		}
+	}
 }
