@@ -123,17 +123,17 @@ struct AircraftCard: View {
 						symbol: "wrench",
 						text: "Maint. Task",
 						num: maintNum,
-						numColor: Color(uiColor: .red))
+						numColor: Color(uiColor: .red), showDot: true)
 					InfoButton(
 						symbol: "gear",
 						text: "Deferrals",
 						num: deferralNum,
-						numColor: .black)
+						numColor: .black, showDot: false)
 					InfoButton(
 						symbol: "info.circle",
 						text: "Maint. Info",
 						num: maintInfoNum,
-						numColor: Color(uiColor: .red))
+						numColor: Color(uiColor: .red), showDot: false)
 				}
 				
 				Spacer()
@@ -161,6 +161,7 @@ struct InfoButton: View {
 	var text: String
 	var num: Int
 	var numColor: Color
+	var showDot: Bool
 	
 	var body: some View {
 		Button {
@@ -203,7 +204,7 @@ struct InfoButton: View {
 						.padding(.horizontal, 4)
 				)
 				.overlay(
-					(num > 0 && text.contains("Maint.")) ?
+					(showDot) ?
 					Circle()
 						.frame(width: 16, height: 16)
 						.foregroundColor(.red)
@@ -212,20 +213,6 @@ struct InfoButton: View {
 					alignment: .topTrailing
 				)
 		}
-	}
-}
-
-struct NotificationDot: View {
-	var body: some View {
-		Circle()
-			.frame(width: 16, height: 16)
-			.foregroundColor(.red.opacity(1))
-			.alignmentGuide(.trailing) { _ in
-				11.5
-			}
-			.alignmentGuide(.top) { _ in
-				5.5
-			}
 	}
 }
 
