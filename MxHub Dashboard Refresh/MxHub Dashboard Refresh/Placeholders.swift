@@ -33,7 +33,7 @@ struct NavbarPlaceholder: View {
 	}
 }
 
-struct FlightInfoPlaceholder: View {
+struct TimestampPlaceholder: View {
 	var body: some View {
 		HStack(spacing: 0) {
 			Text("Sunday, September 2, 2023 ")
@@ -43,10 +43,14 @@ struct FlightInfoPlaceholder: View {
 			
 			Spacer()
 			
-			Text("Last updated 1 min ago")
-				.font(.footnote)
-				.foregroundColor(.secondary)
-				.fontWeight(.semibold)
+			HStack {
+				Image(systemName: "square.and.arrow.down")
+				Text("Last updated 1 min ago")
+			}
+			.font(.footnote)
+			.foregroundColor(.secondary)
+			.fontWeight(.semibold)
+			
 		}
 		
 		.padding(.vertical, 8)
