@@ -139,6 +139,8 @@ struct AircraftCard: View {
 				ProgressBar()
 					.padding(.vertical, 20)
 				
+				FlightInfo()
+				
 				Spacer()
 			}
 			.padding(20)
@@ -156,36 +158,6 @@ struct AircraftCard: View {
 		default:
 			return .clear
 		}
-	}
-}
-
-struct ProgressBar: View {
-	var body: some View {
-		ZStack(alignment: .leading) {
-			Rectangle()
-				.foregroundColor(.clear)
-				.frame(width: 346, height: 6)
-				.background(Color(.secondarySystemBackground))
-				.cornerRadius(20)
-			
-			Rectangle()
-				.frame(width: 138, height: 6)
-				.foregroundColor(.clear)
-				.background(.brandDark)
-				.cornerRadius(20)
-			
-			Text("ON")
-				.font(.footnote)
-				.padding(.vertical, 3)
-				.padding(.horizontal, 4)
-				.fontWeight(.bold)
-				.lineSpacing(16)
-				.foregroundColor(.white)
-				.background(.brandDark)
-				.cornerRadius(4)
-				.offset(x: 118)
-		}
-		.frame(height: 22)
 	}
 }
 
@@ -249,13 +221,6 @@ struct MaintButton: View {
 	}
 }
 
-struct MaintButtonInfo {
-	var maintNum: Int = 0
-	var deferralNum: Int = 0
-	var msgNum: Int = 0
-	var etopsNum: Int = 0
-}
-
 struct StatusBlock: View {
 	var body: some View {
 		HStack(spacing: 0) {
@@ -312,4 +277,191 @@ struct StatusBlock: View {
 			
 		}
 	}
+}
+
+struct ProgressBar: View {
+	var body: some View {
+		ZStack(alignment: .leading) {
+			Rectangle()
+				.foregroundColor(.clear)
+				.frame(width: 346, height: 6)
+				.background(Color(.secondarySystemBackground))
+				.cornerRadius(20)
+			
+			Rectangle()
+				.frame(width: 138, height: 6)
+				.foregroundColor(.clear)
+				.background(.brandDark)
+				.cornerRadius(20)
+			
+			Text("ON")
+				.font(.footnote)
+				.padding(.vertical, 3)
+				.padding(.horizontal, 4)
+				.fontWeight(.bold)
+				.lineSpacing(16)
+				.foregroundColor(.white)
+				.background(.brandDark)
+				.cornerRadius(4)
+				.offset(x: 118)
+		}
+		.frame(height: 22)
+	}
+}
+
+// TODO: Combine arriving / departing info columns
+struct FlightInfo: View {
+	var body: some View {
+		HStack {
+			ArrivingInfoColumn(flightID: "2254 SFO", time: "10:20", gateIn: "285")
+			
+			Divider()
+			
+			GroundInfoColumn(station: "SEA", ground: "1:29", time: "1:15:23")
+			
+			Divider()
+			
+			DepartingInfoColumn(flightID: "3489 ANC", time: "11:45", gateOut: "290")
+		}
+	}
+}
+
+struct ArrivingInfoColumn: View {
+	var flightID: String
+	var time: String
+	var gateIn: String
+	
+	var body: some View {
+		VStack(spacing: 0) {
+			HStack {
+				Image(systemName: "airplane.arrival")
+					.font(.body)
+				
+				Spacer()
+				
+				Text(flightID)
+					.font(.subheadline)
+					.fontWeight(.bold)
+			}
+			.padding(.bottom, 8)
+			
+			HStack {
+				Text("Time")
+					.font(.subheadline)
+					.foregroundColor(.gray)
+				
+				Spacer()
+				
+				Text(time)
+					.font(.headline)
+					.foregroundColor(Color(uiColor: .systemGreen))
+					.fontWeight(.semibold)
+			}
+			.padding(.bottom, 4)
+			
+			HStack {
+				Text("Gate In")
+					.font(.subheadline)
+					.foregroundColor(.gray)
+				
+				Spacer()
+				
+				Text(gateIn)
+					.font(.headline)
+					.foregroundColor(.black)
+					.fontWeight(.semibold)
+			}
+		}
+	}
+}
+
+struct GroundInfoColumn: View {
+	var station: String
+	var ground: String
+	var time: String
+	
+	var body: some View {
+		VStack(alignment: .center, spacing: 0) {
+			HStack(spacing: 8) {
+				Image(systemName: "airplane")
+					.font(.body)
+				
+				Text(station)
+					.font(.subheadline)
+					.fontWeight(.bold)
+			}
+			.padding(.bottom, 8)
+			// TODO: Check if time is given and conditionally format
+			Text(ground)
+				.font(.headline)
+				.foregroundColor(.black)
+				.fontWeight(.semibold)
+				.padding(.bottom, 4)
+			
+			
+			HStack(spacing: 4) {
+				Image(systemName: "timer")
+				Text(time)
+			}
+			.font(.subheadline)
+			.foregroundColor(.gray)
+			.fontWeight(.semibold)
+		}
+	}
+}
+
+struct DepartingInfoColumn: View {
+	var flightID: String
+	var time: String
+	var gateOut: String
+
+	var body: some View {
+		VStack(spacing: 0) {
+			HStack {
+				Image(systemName: "airplane.departure")
+					.font(.body)
+				
+				Spacer()
+				
+				Text(flightID)
+					.font(.subheadline)
+					.fontWeight(.bold)
+			}
+			.padding(.bottom, 8)
+			
+			HStack {
+				Text("Time")
+					.font(.subheadline)
+					.foregroundColor(.gray)
+				
+				Spacer()
+				
+				Text(time)
+					.font(.headline)
+					.foregroundColor(.red)
+					.fontWeight(.semibold)
+			}
+			.padding(.bottom, 4)
+			
+			HStack {
+				Text("Gate Out")
+					.font(.subheadline)
+					.foregroundColor(.gray)
+				
+				Spacer()
+				
+				Text(gateOut)
+					.font(.headline)
+					.foregroundColor(.black)
+					.fontWeight(.semibold)
+			}
+		}
+	}
+}
+
+struct MaintButtonInfo {
+	var maintNum: Int = 0
+	var deferralNum: Int = 0
+	var msgNum: Int = 0
+	var etopsNum: Int = 0
 }
