@@ -19,7 +19,7 @@ struct Dashboard: View {
 				Text("All AC").tag(1)
 			}
 			.pickerStyle(SegmentedPickerStyle())
-			.frame(height: 48)
+			.frame(height: 48, alignment: .bottom)
 			.padding(.top, 16)
 			.padding(.bottom, 0)
 			
@@ -149,7 +149,7 @@ struct AircraftCard: View {
 								
 				WarningDisplay(arrivingWarning: "", groundWarning: "Tow required", departingWarning: "Gate changed"
 				)
-				.padding(.top, 12)
+				.padding(.top, 8)
 				
 			}
 			.padding(.horizontal, 20)
@@ -371,7 +371,7 @@ struct ArrivingInfoColumn: View {
 			.padding(.bottom, 4)
 			
 			HStack {
-				Text("Gate In")
+				Text("Gate in")
 					.font(.subheadline)
 					.foregroundColor(.gray)
 				
@@ -456,7 +456,7 @@ struct DepartingInfoColumn: View {
 			.padding(.bottom, 4)
 			
 			HStack {
-				Text("Gate Out")
+				Text("Gate out")
 					.font(.subheadline)
 					.foregroundColor(.gray)
 				
