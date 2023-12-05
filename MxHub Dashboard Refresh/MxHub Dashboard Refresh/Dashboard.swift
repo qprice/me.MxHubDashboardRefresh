@@ -3,13 +3,18 @@ import SwiftUI
 struct Dashboard: View {
 	@State private var selectedSegment = 0
 	@State var sliderValue = 0.0
+	var columns = [
+		GridItem(.flexible(), spacing: 16),
+		GridItem(.flexible(), spacing: 16)
+	]
 	
 	var body: some View {
 		VStack(spacing: 0) {
 			NavbarPlaceholder(sliderValue: $sliderValue, showSlider: selectedSegment == 1)
 			
 			// Find way to increase height
-			Picker(selection: $selectedSegment, label: Text("")) {
+			Picker("", selection: $selectedSegment)
+			{
 				Text("My AC").tag(0)
 				Text("All AC").tag(1)
 			}
@@ -21,10 +26,7 @@ struct Dashboard: View {
 			TimestampPlaceholder()
 			
 			ScrollView {
-				LazyVGrid(columns: [
-					GridItem(.flexible(), spacing: 16),
-					GridItem(.flexible(), spacing: 16)
-				], spacing: 16) {
+				LazyVGrid(columns: columns, spacing: 16) {
 					if selectedSegment == 0 {
 						AircraftCard(
 							aircraftNum: "619AS",
@@ -98,7 +100,7 @@ struct AircraftCard: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 4)
 				.foregroundColor(.white)
-				.frame(height: 319)
+			//	TODO: Is it better to have a fixed or dynamically sized card?
 			
 			VStack(spacing: 0) {
 				HStack(spacing: 0) {
@@ -120,36 +122,39 @@ struct AircraftCard: View {
 					
 					StatusBlock()
 				}
-				
 				.padding(.bottom, 12)
+				
 				HStack {
 					MaintButton(
 						symbol: "wrench",
 						text: "Maint. Task",
 						num: maintNum,
-						numColor: Color(uiColor: .red), showDot: true)
+						numColor: Color(uiColor: .red))
 					MaintButton(
 						symbol: "gear",
 						text: "Deferrals",
 						num: deferralNum,
-						numColor: .black, showDot: false)
+						numColor: .black)
 					MaintButton(
 						symbol: "info.circle",
 						text: "Maint. Info",
 						num: maintInfoNum,
-						numColor: Color(uiColor: .red), showDot: false)
+						numColor: Color(uiColor: .red))
 				}
 				
 				ProgressBar()
 					.padding(.vertical, 20)
+				
 				FlightInfo()
+								
+				WarningDisplay(arrivingWarning: "", groundWarning: "Tow required", departingWarning: "Gate changed"
+				)
+				.padding(.top, 12)
 				
-				// WarningDisplay(groundWarning: "Tow required", departingWarning: "Gate changed")
-				
-				Spacer()
 			}
 			.padding(.horizontal, 20)
 			.padding(.top, 20)
+			.padding(.bottom, 12)
 		}
 	}
 	
@@ -172,7 +177,7 @@ struct MaintButton: View {
 	var text: String
 	var num: Int
 	var numColor: Color
-	var showDot: Bool
+	//	var showDot: Bool
 	
 	var body: some View {
 		Button {
@@ -214,15 +219,15 @@ struct MaintButton: View {
 						.padding(.vertical, 11)
 						.padding(.horizontal, 4)
 				)
-				.overlay(
-					(showDot) ?
-					Circle()
-						.frame(width: 16, height: 16)
-						.foregroundColor(.red)
-						.offset(x: 6, y: -6)
-					: nil,
-					alignment: .topTrailing
-				)
+//				.overlay(
+//					(showDot) ?
+//					Circle()
+//						.frame(width: 16, height: 16)
+//						.foregroundColor(.red)
+//						.offset(x: 6, y: -6)
+//					: nil,
+//					alignment: .topTrailing
+//				)
 		}
 	}
 }
@@ -322,15 +327,13 @@ struct FlightInfo: View {
 			ArrivingInfoColumn(flightID: "2254 SFO", time: "10:20", gateIn: "285")
 			
 			Divider()
-				.padding(.vertical, 0)
+			
 			GroundInfoColumn(station: "SEA", ground: "1:29", time: "1:15:23")
 			
 			Divider()
-				.padding(.vertical, 0)
 			
 			DepartingInfoColumn(flightID: "3489 ANC", time: "11:45", gateOut: "290")
 		}
-		.padding(.vertical, 0)
 	}
 }
 
@@ -407,7 +410,6 @@ struct GroundInfoColumn: View {
 				.fontWeight(.semibold)
 				.padding(.bottom, 4)
 			
-			
 			HStack(spacing: 4) {
 				Image(systemName: "timer")
 				Text(time)
@@ -476,29 +478,25 @@ struct WarningDisplay: View {
 	var groundWarning: String? = ""
 	var departingWarning: String? = ""
 	
+	var columns: [GridItem] = [
+		GridItem(.flexible()),
+		GridItem(.flexible()),
+		GridItem(.flexible())
+	]
+	
 	var body: some View {
-		GeometryReader { geometry in
-			HStack {
-				Warning(message: arrivingWarning ?? "", width: geometry.size.width / 3)
-				
-				Spacer()
-				
-				Warning(message: arrivingWarning ?? "", width: geometry.size.width / 3)
-				
-				Spacer()
-				
-				Warning(message: arrivingWarning ?? "", width: geometry.size.width / 3)
-			}
+		LazyVGrid(columns: columns, alignment: .center, spacing: 0) {
+			Warning(message: arrivingWarning ?? "")
+			
+			Warning(message: groundWarning ?? "")
+			
+			Warning(message: departingWarning ?? "")
 		}
-		.padding(.top, 11)
-		.padding(.bottom, 12)
 	}
 }
 
-
 struct Warning: View {
 	var message: String
-	var width: CGFloat
 	
 	var body: some View {
 		HStack(alignment: .center, spacing: 2) {
@@ -509,12 +507,11 @@ struct Warning: View {
 					.font(.caption2)
 			}
 		}
-		.frame(width: width)
-		.fixedSize()
 		.padding(0)
 		.font(.caption2)
 		.fontWeight(.semibold)
-		.foregroundColor(Color(uiColor: .systemOrange))
+		.foregroundColor(Color(red: 0.82, green: 0.48, blue: 0.18))
+//		.foregroundColor(Color(uiColor: .systemOrange))
 	}
 }
 
