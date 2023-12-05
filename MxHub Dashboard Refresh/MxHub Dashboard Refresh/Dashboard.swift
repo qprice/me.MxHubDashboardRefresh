@@ -521,3 +521,10 @@ struct MaintButtonInfo {
 	var msgNum: Int = 0
 	var etopsNum: Int = 0
 }
+
+extension UISegmentedControl {
+	override open func didMoveToSuperview() {
+		super.didMoveToSuperview()
+		self.setContentHuggingPriority(.defaultLow, for: .vertical)
+	}
+}
