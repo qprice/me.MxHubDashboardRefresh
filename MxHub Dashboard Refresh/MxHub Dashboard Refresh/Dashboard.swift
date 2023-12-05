@@ -19,7 +19,7 @@ struct Dashboard: View {
 				Text("All AC").tag(1)
 			}
 			.pickerStyle(SegmentedPickerStyle())
-			.frame(height: 48, alignment: .bottom)
+			.frame(height: 44, alignment: .bottom)
 			.padding(.top, 16)
 			.padding(.bottom, 0)
 			
