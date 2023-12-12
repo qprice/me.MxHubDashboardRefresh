@@ -100,10 +100,10 @@ struct AircraftCard: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 4)
 				.foregroundColor(.white)
-			//	TODO: Is it better to have a fixed or dynamically sized card?
 			
 			VStack(spacing: 0) {
 				HStack(spacing: 0) {
+					// Extract this view?
 					VStack(alignment: .leading, spacing: 1) {
 						Text(aircraftNum)
 							.font(.title2)

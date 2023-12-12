@@ -2,9 +2,6 @@
 //  Placeholders.swift
 //  MxHub Dashboard Refresh
 //
-//  Created by Quinton Price on 11/30/23.
-//
-
 import SwiftUI
 
 struct NavbarPlaceholder: View {
